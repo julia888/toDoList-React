@@ -5,10 +5,15 @@ import Task from "./Task";
 class InputForm extends Component {
     constructor(props) {
         super(props);
+        let arr = JSON.parse(localStorage.getItem('arr'));
         this.state = {
             userInput: '',
             list: []
         };
+
+        for (let key in arr){
+            this.state.list.push(arr[key])
+        }
 
         this.deleteToList = this.deleteToList.bind(this);
         this.changeDone = this.changeDone.bind(this);
@@ -29,6 +34,8 @@ class InputForm extends Component {
         let listArray = this.state.list;
         listArray.push(task);
 
+        localStorage.setItem('arr', JSON.stringify(listArray));
+
         this.setState({
             list: listArray,
             userInput: ''
@@ -41,7 +48,8 @@ class InputForm extends Component {
         this.setState({
             list: listArray,
             userInput: ''
-        })
+        });
+        localStorage.setItem('arr', JSON.stringify(listArray));
     };
 
     changeDone = (id) => {
@@ -50,24 +58,36 @@ class InputForm extends Component {
         this.setState({
             list: listArray,
         });
-        console.log(listArray[id].isDone);
+        localStorage.setItem('arr', JSON.stringify(listArray));
     };
 
     render() {
         return (
-            <div>
+            <div className={'form'}>
                 <input
                     onChange={this.changeUserInput}
                     value={this.state.userInput}
                     type="text"
+                    className={'form form-input'}
                 />
-                <button onClick={this.addToList}>Add Task</button>
-                <Task
-                    list={this.state.list}
-                    deleteToList={this.deleteToList}
-                    changeDone={this.changeDone}
-                />
-                {this.state.list.length === 0 ? <h4>No tasks</h4> : <h4>Count of tasks {this.state.list.length}</h4>}
+                <button
+                    onClick={this.addToList}
+                    className={'form-button '}>
+                    Add Task
+                </button>
+                {this.state.list.length === 0 ?
+                    <div>No tasks</div> :
+                    <Task
+                        list={this.state.list}
+                        deleteToList={this.deleteToList}
+                        changeDone={this.changeDone}
+                    />}
+                {/*<Task*/}
+                {/*list={this.state.list}*/}
+                {/*deleteToList={this.deleteToList}*/}
+                {/*changeDone={this.changeDone}*/}
+                {/*/>*/}
+                {/*{this.state.list.length === 0 ? <h4>No tasks</h4> : <h4>Count of tasks {this.state.list.length}</h4>}*/}
             </div>
         )
     }

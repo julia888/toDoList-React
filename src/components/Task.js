@@ -20,10 +20,17 @@ class Task extends Component {
 
     render() {
         return (
-            <ul>
+            <ul className={'list'}>
                 {this.props.list.map((e, i) =>
-                    <li key={i} id={i} onClick={this.doneTask} style={{textDecoration: e.isDone ? 'line-through': 'none'}}>
-                        {e.text}
+                    <li key={i} id={i}
+                        className={'list-task'}
+                    >
+                        <span  key={i} id={i}
+                               onClick={this.doneTask}
+                               style={{textDecoration: e.isDone ? 'line-through': 'none'}}
+                        >
+                            {e.text}
+                        </span>
                         <button onClick={this.deleteTask}>x</button>
                     </li>)}
             </ul>
