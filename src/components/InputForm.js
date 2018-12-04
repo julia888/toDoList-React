@@ -1,25 +1,26 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 // import Task from "./Task";
 import Task from "./Task";
 
 class InputForm extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            userInput:'',
-            list:[]
+            userInput: '',
+            list: []
         };
 
         this.deleteToList = this.deleteToList.bind(this);
+        this.changeDone = this.changeDone.bind(this);
     }
 
-    changeUserInput=(e)=>{
+    changeUserInput = (e) => {
         this.setState({
             userInput: e.target.value
         })
     };
 
-    addToList=()=>{
+    addToList = () => {
         let task = {
             // id: Date.now(),
             text: this.state.userInput,
@@ -30,17 +31,26 @@ class InputForm extends Component {
 
         this.setState({
             list: listArray,
-            userInput:''
+            userInput: ''
         })
     };
 
-    deleteToList=(id)=>{
+    deleteToList = (id) => {
         let listArray = this.state.list;
         listArray.splice(id, 1);
         this.setState({
             list: listArray,
-            userInput:''
+            userInput: ''
         })
+    };
+
+    changeDone = (id) => {
+        let listArray = this.state.list;
+        listArray[id].isDone = !listArray[id].isDone;
+        this.setState({
+            list: listArray,
+        });
+        console.log(listArray[id].isDone);
     };
 
     render() {
@@ -55,8 +65,9 @@ class InputForm extends Component {
                 <Task
                     list={this.state.list}
                     deleteToList={this.deleteToList}
+                    changeDone={this.changeDone}
                 />
-               {this.state.list.length === 0 ? <h4>No tasks</h4> : <h4>Count of tasks {this.state.list.length}</h4>}
+                {this.state.list.length === 0 ? <h4>No tasks</h4> : <h4>Count of tasks {this.state.list.length}</h4>}
             </div>
         )
     }

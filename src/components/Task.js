@@ -5,6 +5,7 @@ class Task extends Component {
         super(props);
 
         this.deleteTask = this.deleteTask.bind(this);
+        this.doneTask = this.doneTask.bind(this);
     }
 
     deleteTask(i) {
@@ -12,11 +13,16 @@ class Task extends Component {
         this.props.deleteToList(id);
     }
 
+    doneTask(i) {
+        let id = i.currentTarget.id;
+        this.props.changeDone(id);
+    }
+
     render() {
         return (
             <ul>
                 {this.props.list.map((e, i) =>
-                    <li key={i} id={i}>
+                    <li key={i} id={i} onClick={this.doneTask} style={{textDecoration: e.isDone ? 'line-through': 'none'}}>
                         {e.text}
                         <button onClick={this.deleteTask}>x</button>
                     </li>)}
